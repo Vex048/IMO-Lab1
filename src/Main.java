@@ -1,15 +1,34 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import experiments.ExperimentResult;
+import experiments.NearestNeighbourExperiment;
+import heuristics.NearestNeighbourHeuristic.Mode;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        try {
+            int startNode = 134;
+            String savePathStr = "outputs/nearest_neighbour.txt";
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            Path savePath = (savePathStr == null || savePathStr.trim().isEmpty()) ? null : Paths.get(savePathStr);
+
+            System.out.println("=== Nearest Neighbour Experiment ===");
+            NearestNeighbourExperiment exp = new NearestNeighbourExperiment(
+                    Paths.get("datasets/TSPA.csv"),
+                    Mode.DISTANCE,
+                    startNode,
+                    savePath
+            );
+            ExperimentResult res = exp.run();
+
+            System.out.println(res);
+            System.out.println(res.tour());
+
+            if (savePath != null) {
+                System.out.println("Saved to: " + savePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
