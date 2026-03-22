@@ -1,7 +1,8 @@
 package experiments;
 
-import heuristics.NearestNeighbourHeuristic;
-import heuristics.NearestNeighbourHeuristic.Mode;
+import heuristics.NearestNeighbourCostHeuristic;
+import heuristics.NearestNeighbourDistanceHeuristic;
+import heuristics.Heuristic;
 import instance.Instance;
 import instance.InstanceLoader;
 import solution.Solution;
@@ -10,7 +11,11 @@ import java.nio.file.Path;
 import java.nio.file.Files;
 import java.util.Random;
 
-public class NearestNeighbourExperiment implements Experiment{
+public class NearestNeighbourExperiment implements Experiment {
+    public enum Mode {
+        DISTANCE,
+        COST
+    }
     private final Path datasetPath;
     private final Mode mode;
     private final int startNode;
@@ -46,7 +51,7 @@ public class NearestNeighbourExperiment implements Experiment{
     public ExperimentResult run() throws Exception {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
 
-        NearestNeighbourHeuristic h = new NearestNeighbourHeuristic(mode);
+        Heuristic h = createHeuristic(mode);
         Solution sol = h.solve(instance, startNode, this.rng);
 
         if (savePath != null) {
@@ -61,5 +66,14 @@ public class NearestNeighbourExperiment implements Experiment{
                 sol.getTotalDistance(),
                 sol.objectiveValue(),
                 sol.getCycle().getTour());
+    }
+    private Heuristic createHeuristic(Mode selectedMode) {
+        switch (selectedMode) {
+            case COST:
+                return new NearestNeighbourCostHeuristic();
+            case DISTANCE:
+            default:
+                return new NearestNeighbourDistanceHeuristic();
+        }
     }
 }
