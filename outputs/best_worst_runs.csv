@@ -5,9 +5,11 @@ TSPA,NN_Cost,130,2712,28208,46943,outputs/runs/nearest_neighbour_cost/TSPA/run_1
 TSPA,NN_Distance,90,5971,26250,38449,outputs/runs/nearest_neighbour_distance/TSPA/run_090.txt,58,-2121,34191,41806,outputs/runs/nearest_neighbour_distance/TSPA/run_058.txt
 TSPA,Random,69,233,0,0,outputs/runs/random/TSPA/run_069.txt,85,-311268,345142,345142,outputs/runs/random/TSPA/run_085.txt
 TSPA,RegretCycle,92,7360,25422,31515,outputs/runs/regret_cycle/TSPA/run_092.txt,52,5294,27448,32891,outputs/runs/regret_cycle/TSPA/run_052.txt
-TSPB,GreedyCycle_Distance,1,15375,29622,37280,outputs/runs/greedy_cycle_distance/TSPB/run_001.txt,50,12527,32406,38985,outputs/runs/greedy_cycle_distance/TSPB/run_050.txt
-TSPB,GreedyCycle_Objective,12,16106,27967,36045,outputs/runs/greedy_cycle_objective/TSPB/run_012.txt,23,14152,30264,37016,outputs/runs/greedy_cycle_objective/TSPB/run_023.txt
-TSPB,NN_Cost,153,9016,34284,51231,outputs/runs/nearest_neighbour_cost/TSPB/run_153.txt,56,2251,42155,53778,outputs/runs/nearest_neighbour_cost/TSPB/run_056.txt
-TSPB,NN_Distance,64,16455,27996,41089,outputs/runs/nearest_neighbour_distance/TSPB/run_064.txt,54,10547,35922,40119,outputs/runs/nearest_neighbour_distance/TSPB/run_054.txt
-TSPB,Random,164,463,0,0,outputs/runs/random/TSPB/run_164.txt,106,-286852,333313,333313,outputs/runs/random/TSPB/run_106.txt
-TSPB,RegretCycle,9,19486,24955,32321,outputs/runs/regret_cycle/TSPB/run_009.txt,74,16668,29066,33492,outputs/runs/regret_cycle/TSPB/run_074.txt
+TSPA,WeightedRegrestCycle,165,7208,25706,31901,outputs/runs/weighted_regret_cycle/TSPA/run_165.txt,43,4129,29119,33419,outputs/runs/weighted_regret_cycle/TSPA/run_043.txt
+TSPB,GreedyCycle_Distance,68,15375,29622,37280,outputs/runs/greedy_cycle_distance/TSPB/run_068.txt,112,12527,32406,38985,outputs/runs/greedy_cycle_distance/TSPB/run_112.txt
+TSPB,GreedyCycle_Objective,166,16106,27967,36045,outputs/runs/greedy_cycle_objective/TSPB/run_166.txt,26,14181,30467,36980,outputs/runs/greedy_cycle_objective/TSPB/run_026.txt
+TSPB,NN_Cost,24,9016,34284,51231,outputs/runs/nearest_neighbour_cost/TSPB/run_024.txt,137,2251,42155,53778,outputs/runs/nearest_neighbour_cost/TSPB/run_137.txt
+TSPB,NN_Distance,82,16455,27996,41089,outputs/runs/nearest_neighbour_distance/TSPB/run_082.txt,113,10375,35977,41681,outputs/runs/nearest_neighbour_distance/TSPB/run_113.txt
+TSPB,Random,52,100,0,0,outputs/runs/random/TSPB/run_052.txt,141,-300916,349075,349075,outputs/runs/random/TSPB/run_141.txt
+TSPB,RegretCycle,185,19486,24955,32321,outputs/runs/regret_cycle/TSPB/run_185.txt,12,16668,29066,33492,outputs/runs/regret_cycle/TSPB/run_012.txt
+TSPB,WeightedRegrestCycle,104,19080,25949,32354,outputs/runs/weighted_regret_cycle/TSPB/run_104.txt,5,17040,28871,33301,outputs/runs/weighted_regret_cycle/TSPB/run_005.txt

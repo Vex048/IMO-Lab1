@@ -28,12 +28,18 @@ public class WeightedTwoRegretHeuristic implements Heuristic {
     @Override
     public Solution solve(Instance instance, int startNode, Random rng) {
         int n = instance.size();
-        List<Integer> tour = new ArrayList<>();
-
         if (n == 0) {
-            Cycle cycle = new Cycle(tour);
-            return new Solution(cycle, 0, 0, 0);
+            return new Solution(new Cycle(List.of()), 0, 0, 0, 0);
         }
+        if (n == 1) {
+            List<Integer> single = List.of(0);
+            Cycle cycle = new Cycle(single);
+            int distance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
+            int reward = ObjectiveFunction.calculateTotalReward(instance, cycle);
+            return new Solution(cycle, reward, distance, reward - distance, distance);
+        }
+
+        List<Integer> tour = new ArrayList<>();
 
         int seedNode;
         if (startNode == -1) {
@@ -96,6 +102,8 @@ public class WeightedTwoRegretHeuristic implements Heuristic {
             visited[bestNode] = true;
         }
 
+        int phase1Distance = ObjectiveFunction.calculateTotalDistance(instance, new Cycle(tour));
+
         if (applyReduction) {
             improveByCycleReduction(instance, tour);
         }
@@ -105,7 +113,7 @@ public class WeightedTwoRegretHeuristic implements Heuristic {
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
         int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
 
-        return new Solution(cycle, totalReward, totalDistance, objectiveValue);
+        return new Solution(cycle, totalReward, totalDistance, objectiveValue, phase1Distance);
     }
 
     private void improveByCycleReduction(Instance instance, List<Integer> cycleNodes) {

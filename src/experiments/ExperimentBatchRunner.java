@@ -53,7 +53,16 @@ public class ExperimentBatchRunner {
             Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
                 return new RegretCycleExperiment(datasetPath, startNode, savePath, rng);
             }
+            
+        },
+        WEIGHTED_REGRET_CYCLE("WeightedRegrestCycle"){
+            @Override
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+                return new WeightedTwoRegretExperiment(datasetPath, startNode,10.0 ,savePath, rng);
+            }
         };
+
+        
 
         private final String label;
 
