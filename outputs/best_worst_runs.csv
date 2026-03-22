@@ -1,0 +1,13 @@
+instance,method,bestRun,bestObjective,bestTotalDistance,bestPhase1Distance,bestTourFile,worstRun,worstObjective,worstTotalDistance,worstPhase1Distance,worstTourFile
+TSPA,GreedyCycle_Distance,29,4368,27045,36229,outputs/runs/greedy_cycle_distance/TSPA/run_029.txt,58,1894,29992,37617,outputs/runs/greedy_cycle_distance/TSPA/run_058.txt
+TSPA,GreedyCycle_Objective,25,4506,27128,35662,outputs/runs/greedy_cycle_objective/TSPA/run_025.txt,117,2936,29934,36631,outputs/runs/greedy_cycle_objective/TSPA/run_117.txt
+TSPA,NN_Cost,130,2712,28208,46943,outputs/runs/nearest_neighbour_cost/TSPA/run_130.txt,104,-3899,35285,49645,outputs/runs/nearest_neighbour_cost/TSPA/run_104.txt
+TSPA,NN_Distance,90,5971,26250,38449,outputs/runs/nearest_neighbour_distance/TSPA/run_090.txt,58,-2121,34191,41806,outputs/runs/nearest_neighbour_distance/TSPA/run_058.txt
+TSPA,Random,69,233,0,0,outputs/runs/random/TSPA/run_069.txt,85,-311268,345142,345142,outputs/runs/random/TSPA/run_085.txt
+TSPA,RegretCycle,92,7360,25422,31515,outputs/runs/regret_cycle/TSPA/run_092.txt,52,5294,27448,32891,outputs/runs/regret_cycle/TSPA/run_052.txt
+TSPB,GreedyCycle_Distance,1,15375,29622,37280,outputs/runs/greedy_cycle_distance/TSPB/run_001.txt,50,12527,32406,38985,outputs/runs/greedy_cycle_distance/TSPB/run_050.txt
+TSPB,GreedyCycle_Objective,12,16106,27967,36045,outputs/runs/greedy_cycle_objective/TSPB/run_012.txt,23,14152,30264,37016,outputs/runs/greedy_cycle_objective/TSPB/run_023.txt
+TSPB,NN_Cost,153,9016,34284,51231,outputs/runs/nearest_neighbour_cost/TSPB/run_153.txt,56,2251,42155,53778,outputs/runs/nearest_neighbour_cost/TSPB/run_056.txt
+TSPB,NN_Distance,64,16455,27996,41089,outputs/runs/nearest_neighbour_distance/TSPB/run_064.txt,54,10547,35922,40119,outputs/runs/nearest_neighbour_distance/TSPB/run_054.txt
+TSPB,Random,164,463,0,0,outputs/runs/random/TSPB/run_164.txt,106,-286852,333313,333313,outputs/runs/random/TSPB/run_106.txt
+TSPB,RegretCycle,9,19486,24955,32321,outputs/runs/regret_cycle/TSPB/run_009.txt,74,16668,29066,33492,outputs/runs/regret_cycle/TSPB/run_074.txt

@@ -23,14 +23,14 @@ public class RandomExperiment implements Experiment {
         this(datasetPath, startNode, savePath, null);
     }
 
+    public RandomExperiment(Path datasetPath, int startNode, Random rng) {
+        this(datasetPath, startNode, null, rng);
+    }
+
     public RandomExperiment(Path datasetPath, int startNode, Path savePath, Random rng) {
         this.datasetPath = datasetPath;
         this.startNode = startNode;
-        if (savePath != null && savePath.toString().trim().isEmpty()) {
-            this.savePath = null;
-        } else {
-            this.savePath = savePath;
-        }
+        this.savePath = (savePath != null && savePath.toString().trim().isEmpty()) ? null : savePath;
         this.rng = (rng == null) ? new Random() : rng;
     }
 
@@ -52,6 +52,7 @@ public class RandomExperiment implements Experiment {
                 sol.getCycle().size(),
                 sol.getTotalReward(),
                 sol.getTotalDistance(),
+                sol.getPhase1Distance(),
                 sol.objectiveValue(),
                 sol.getCycle().getTour());
     }
