@@ -18,7 +18,7 @@ public class RandomHeuristic implements Heuristic {
     public Solution solve(Instance instance, int startNode, Random rng) {
         int n = instance.size();
         if (n == 0) {
-            return new Solution(new Cycle(List.of()), 0, 0, 0);
+            return new Solution(new Cycle(List.of()), 0, 0, 0, 0);
         }
 
         int count = 1 + rng.nextInt(n);
@@ -35,7 +35,7 @@ public class RandomHeuristic implements Heuristic {
         int totalDistance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
         int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
-        return new Solution(cycle, totalReward, totalDistance, objectiveValue);
+        return new Solution(cycle, totalReward, totalDistance, objectiveValue, totalDistance);
     }
 }
 

@@ -59,6 +59,7 @@ public class NearestNeighbourExperiment implements Experiment{
                 sol.getCycle().size(),
                 sol.getTotalReward(),
                 sol.getTotalDistance(),
+                sol.getPhase1Distance(),
                 sol.objectiveValue(),
                 sol.getCycle().getTour());
     }
