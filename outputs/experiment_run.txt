@@ -1,0 +1,31 @@
+startNodeIdx = 134;
+
+=== Running Nearest Neighbour (Distance, Hamiltonian) ===
+Experiment(nodes=200 reward=35317 distance=39189 objective=-3872)
+
+=== Running Nearest Neighbour (Distance, Reduction) ===
+Experiment(nodes=158 reward=31343 distance=28816 objective=2527)
+
+=== Running Nearest Neighbour (Cost, Hamiltonian) ===
+Experiment(nodes=200 reward=35317 distance=46927 objective=-11610)
+
+=== Running Nearest Neighbour (Cost, Reduction) ===
+Experiment(nodes=145 reward=30600 distance=28121 objective=2479)
+
+=== Running Greedy Cycle (Distance) ===
+Experiment(nodes=158 reward=31514 distance=28304 objective=3210)
+
+=== Running Greedy Cycle (Objective) ===
+Experiment(nodes=164 reward=32483 distance=29348 objective=3135)
+
+=== Running Regret Cycle ===
+Experiment(nodes=162 reward=32744 distance=26889 objective=5855)
+
+=== Running Weighted Two Regret (Hamiltonian) ===
+Experiment(nodes=200 reward=35317 distance=32939 objective=2378)
+
+=== Running Weighted Two Regret (Reduction) ===
+Experiment(nodes=157 reward=31757 distance=25413 objective=6344)
+
+=== Running Random Heuristic ===
+Experiment(nodes=49 reward=8603 distance=86713 objective=-78110)
