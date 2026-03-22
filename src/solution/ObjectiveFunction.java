@@ -3,7 +3,6 @@ package solution;
 import instance.Instance;
 import java.util.List;
 
-// add/remove node delta calculated here for GC?
 public class ObjectiveFunction {
     public static int calculateTotalDistance(Instance instance, Cycle cycle) {
         List<Integer> tour = cycle.getTour();
@@ -29,5 +28,23 @@ public class ObjectiveFunction {
 
     public static int calculateValue(Instance instance, Cycle cycle) {
         return calculateTotalReward(instance, cycle) - calculateTotalDistance(instance, cycle);
+    }
+
+    public static int calculateInsertObjectiveDelta(Instance instance, List<Integer> tour, int insertAfterIndex, int nodeId) {
+        int size = tour.size();
+        if (size == 0) return 0;
+
+        if (insertAfterIndex < 0 || insertAfterIndex >= size) {
+            throw new IllegalArgumentException("insertAfterIndex out of bounds: " + insertAfterIndex);
+        }
+
+        int previousNode = tour.get(insertAfterIndex);
+        int nextNode = tour.get((insertAfterIndex + 1) % size);
+
+        int distanceDelta = instance.distance(previousNode, nodeId)
+                + instance.distance(nodeId, nextNode)
+                - instance.distance(previousNode, nextNode);
+        int rewardDelta = instance.reward(nodeId);
+        return rewardDelta - distanceDelta;
     }
 }
