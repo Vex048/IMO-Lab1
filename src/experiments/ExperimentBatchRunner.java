@@ -1,7 +1,5 @@
 package experiments;
 
-import heuristics.NearestNeighbourHeuristic;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,13 +25,13 @@ public class ExperimentBatchRunner {
         NEAREST_NEIGHBOUR_DISTANCE("NN_Distance") {
             @Override
             Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
-                return new NearestNeighbourExperiment(datasetPath, NearestNeighbourHeuristic.Mode.DISTANCE, startNode, savePath, rng);
+                return new NearestNeighbourExperiment(datasetPath, NearestNeighbourExperiment.Criterion.DISTANCE, NearestNeighbourExperiment.Mode.REDUCTION, startNode, savePath, rng);
             }
         },
         NEAREST_NEIGHBOUR_COST("NN_Cost") {
             @Override
             Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
-                return new NearestNeighbourExperiment(datasetPath, NearestNeighbourHeuristic.Mode.COST, startNode, savePath, rng);
+                return new NearestNeighbourExperiment(datasetPath, NearestNeighbourExperiment.Criterion.COST, NearestNeighbourExperiment.Mode.REDUCTION, startNode, savePath, rng);
             }
         },
         GREEDY_CYCLE_DISTANCE("GreedyCycle_Distance") {
