@@ -66,10 +66,20 @@ public class Main {
 
             experimentList.add(new WeightedTwoRegretExperiment(
                     datasetPath,
+                    WeightedTwoRegretExperiment.Mode.HAMILTONIAN,
                     startNode,
                     10.0, // regret weight
                     1.0, // greedy weight
                     Paths.get("outputs/weighted_two_regret.txt")
+            ));
+
+            experimentList.add(new WeightedTwoRegretExperiment(
+                    datasetPath,
+                    WeightedTwoRegretExperiment.Mode.REDUCTION,
+                    startNode,
+                    10.0, // regret weight
+                    1.0, // greedy weight
+                    Paths.get("outputs/weighted_two_regret_reduction.txt")
             ));
 
             experimentList.add(new RandomExperiment(
@@ -86,7 +96,8 @@ public class Main {
                     "Greedy Cycle (Distance)",
                     "Greedy Cycle (Objective)",
                     "Regret Cycle",
-                    "Weighted Two Regret",
+                    "Weighted Two Regret (Hamiltonian)",
+                    "Weighted Two Regret (Reduction)",
                     "Random Heuristic"
             );
 

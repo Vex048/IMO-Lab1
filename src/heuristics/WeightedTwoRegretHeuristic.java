@@ -2,6 +2,7 @@ package heuristics;
 
 import instance.Instance;
 import solution.Cycle;
+import solution.CycleDeltas;
 import solution.ObjectiveFunction;
 import solution.Solution;
 
@@ -12,10 +13,16 @@ import java.util.Random;
 public class WeightedTwoRegretHeuristic implements Heuristic {
     private final double regretWeight;
     private final double greedyWeight;
+    private final boolean applyReduction;
 
     public WeightedTwoRegretHeuristic(double regretWeight, double greedyWeight) {
+        this(regretWeight, greedyWeight, false);
+    }
+
+    public WeightedTwoRegretHeuristic(double regretWeight, double greedyWeight, boolean applyReduction) {
         this.regretWeight = regretWeight;
         this.greedyWeight = greedyWeight;
+        this.applyReduction = applyReduction;
     }
 
     @Override
@@ -89,11 +96,38 @@ public class WeightedTwoRegretHeuristic implements Heuristic {
             visited[bestNode] = true;
         }
 
+        if (applyReduction) {
+            improveByCycleReduction(instance, tour);
+        }
+
         Cycle cycle = new Cycle(tour);
         int totalDistance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
         int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
 
         return new Solution(cycle, totalReward, totalDistance, objectiveValue);
+    }
+
+    private void improveByCycleReduction(Instance instance, List<Integer> cycleNodes) {
+        boolean improved = true;
+
+        while (improved && cycleNodes.size() > 2) {
+            improved = false;
+            int bestPos = -1;
+            int bestDelta = 0;
+
+            for (int pos = 0; pos < cycleNodes.size(); pos++) {
+                int delta = CycleDeltas.removalObjectiveDelta(instance, cycleNodes, pos);
+                if (delta > bestDelta) {
+                    bestDelta = delta;
+                    bestPos = pos;
+                }
+            }
+
+            if (bestDelta > 0) {
+                cycleNodes.remove(bestPos);
+                improved = true;
+            }
+        }
     }
 }
