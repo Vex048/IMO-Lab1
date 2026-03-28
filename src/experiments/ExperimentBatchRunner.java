@@ -1,5 +1,9 @@
 package experiments;
 
+import heuristics.RegretCycleHeuristic;
+import heuristics.localsearch.IntraRouteNeighborhood;
+import heuristics.localsearch.SearchStrategy;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,48 +22,101 @@ public class ExperimentBatchRunner {
     public enum Method {
         RANDOM("Random") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new RandomExperiment(datasetPath, startNode, savePath, rng);
             }
         },
         NEAREST_NEIGHBOUR_DISTANCE("NN_Distance") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new NearestNeighbourExperiment(datasetPath, NearestNeighbourExperiment.Criterion.DISTANCE, NearestNeighbourExperiment.Mode.REDUCTION, startNode, savePath, rng);
             }
         },
         NEAREST_NEIGHBOUR_COST("NN_Cost") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new NearestNeighbourExperiment(datasetPath, NearestNeighbourExperiment.Criterion.COST, NearestNeighbourExperiment.Mode.REDUCTION, startNode, savePath, rng);
             }
         },
         GREEDY_CYCLE_DISTANCE("GreedyCycle_Distance") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new GreedyCycleExperiment(datasetPath, GreedyCycleExperiment.Mode.DISTANCE, startNode, savePath, rng);
             }
         },
         GREEDY_CYCLE_OBJECTIVE("GreedyCycle_Objective") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new GreedyCycleExperiment(datasetPath, GreedyCycleExperiment.Mode.OBJECTIVE, startNode, savePath, rng);
             }
         },
         REGRET_CYCLE("RegretCycle") {
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new RegretCycleExperiment(datasetPath, startNode, savePath, rng);
             }
             
         },
         WEIGHTED_REGRET_CYCLE("WeightedRegrestCycle"){
             @Override
-            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng) {
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
                 return new WeightedTwoRegretExperiment(datasetPath, startNode,10.0 ,savePath, rng);
             }
+        },
+        LS_STEEPEST_VERTEX_RANDOM("LS_Steepest_Vertex_Random") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.STEEPEST, IntraRouteNeighborhood.VERTEX_SWAP, null, sn, sp, r);
+            }
+        },
+        LS_STEEPEST_VERTEX_HEURISTIC("LS_Steepest_Vertex_Heuristic") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.STEEPEST, IntraRouteNeighborhood.VERTEX_SWAP, new RegretCycleHeuristic(), sn, sp, r);
+            }
+        },
+        LS_STEEPEST_EDGE_RANDOM("LS_Steepest_Edge_Random") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.STEEPEST, IntraRouteNeighborhood.EDGE_SWAP, null, sn, sp, r);
+            }
+        },
+        LS_STEEPEST_EDGE_HEURISTIC("LS_Steepest_Edge_Heuristic") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.STEEPEST, IntraRouteNeighborhood.EDGE_SWAP, new RegretCycleHeuristic(), sn, sp, r);
+            }
+        },
+        LS_GREEDY_VERTEX_RANDOM("LS_Greedy_Vertex_Random") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.GREEDY, IntraRouteNeighborhood.VERTEX_SWAP, null, sn, sp, r);
+            }
+        },
+        LS_GREEDY_VERTEX_HEURISTIC("LS_Greedy_Vertex_Heuristic") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.GREEDY, IntraRouteNeighborhood.VERTEX_SWAP, new RegretCycleHeuristic(), sn, sp, r);
+            }
+        },
+        LS_GREEDY_EDGE_RANDOM("LS_Greedy_Edge_Random") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.GREEDY, IntraRouteNeighborhood.EDGE_SWAP, null, sn, sp, r);
+            }
+        },
+        LS_GREEDY_EDGE_HEURISTIC("LS_Greedy_Edge_Heuristic") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(ds, SearchStrategy.GREEDY, IntraRouteNeighborhood.EDGE_SWAP, new RegretCycleHeuristic(), sn, sp, r);
+            }
+        },
+        RANDOM_WALK("RandomWalk") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new RandomWalkExperiment(ds, timeLimitMs, sn, sp, r);
+            }
         };
-
         
 
         private final String label;
@@ -72,7 +129,7 @@ public class ExperimentBatchRunner {
             return label;
         }
 
-        abstract Experiment create(Path datasetPath, int startNode, Path savePath, Random rng);
+        abstract Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs);
     }
 
     public record BatchArtifacts(Path detailsCsv,
@@ -106,7 +163,10 @@ public class ExperimentBatchRunner {
                                   int maxReward,
                                   double avgNodeCount,
                                   int minNodeCount,
-                                  int maxNodeCount) {
+                                  int maxNodeCount,
+                                  double avgTimeMs,
+                                  long minTimeMs,
+                                  long maxTimeMs) {
     }
 
     private final List<Path> datasetPaths;
@@ -149,32 +209,52 @@ public class ExperimentBatchRunner {
 
     private List<RunDetail> runAllExperiments() throws Exception {
         Files.createDirectories(outputDir);
-
         List<RunDetail> details = new ArrayList<>();
         int combinationIndex = 0;
 
         for (Path datasetPath : datasetPaths) {
             String instanceName = datasetName(datasetPath);
+
+            long maxLSAverageTimeMs = 0;
+
             for (Method method : methods) {
+                if (method == Method.RANDOM_WALK) continue;
+
+                long totalTimeForMethod = 0;
                 for (int runIndex = 1; runIndex <= runsPerCombination; runIndex++) {
                     long seed = computeSeed(combinationIndex, runIndex);
                     Random rng = new Random(seed);
+                    Path tourFile = outputDir.resolve("runs").resolve(method.name().toLowerCase(Locale.ROOT)).resolve(instanceName).resolve(String.format("run_%03d.txt", runIndex));
 
-                    Path tourFile = outputDir
-                            .resolve("runs")
-                            .resolve(method.name().toLowerCase(Locale.ROOT))
-                            .resolve(instanceName)
-                            .resolve(String.format("run_%03d.txt", runIndex));
-
-                    Experiment experiment = method.create(datasetPath, startNode, tourFile, rng);
+                    Experiment experiment = method.create(datasetPath, startNode, tourFile, rng, 0L);
                     ExperimentResult result = experiment.run();
 
+                    totalTimeForMethod += result.timeMs();
                     details.add(new RunDetail(instanceName, method, runIndex, seed, result, tourFile));
+                }
+
+                if (method.name().startsWith("LS_")) {
+                    long avgTime = totalTimeForMethod / runsPerCombination;
+                    maxLSAverageTimeMs = Math.max(maxLSAverageTimeMs, avgTime);
+                }
+                combinationIndex++;
+            }
+
+            if (methods.contains(Method.RANDOM_WALK)) {
+                if (maxLSAverageTimeMs == 0) maxLSAverageTimeMs = 1000L;
+
+                for (int runIndex = 1; runIndex <= runsPerCombination; runIndex++) {
+                    long seed = computeSeed(combinationIndex, runIndex);
+                    Random rng = new Random(seed);
+                    Path tourFile = outputDir.resolve("runs").resolve(Method.RANDOM_WALK.name().toLowerCase(Locale.ROOT)).resolve(instanceName).resolve(String.format("run_%03d.txt", runIndex));
+
+                    Experiment experiment = Method.RANDOM_WALK.create(datasetPath, startNode, tourFile, rng, maxLSAverageTimeMs);
+                    ExperimentResult result = experiment.run();
+                    details.add(new RunDetail(instanceName, Method.RANDOM_WALK, runIndex, seed, result, tourFile));
                 }
                 combinationIndex++;
             }
         }
-
         return details;
     }
 
@@ -189,6 +269,9 @@ public class ExperimentBatchRunner {
     }
 
     private List<AggregateStats> aggregate(List<RunDetail> runDetails) {
+        long sumTime = 0;
+        long minTime = Long.MAX_VALUE;
+        long maxTime = Long.MIN_VALUE;
         Map<String, List<RunDetail>> grouped = new HashMap<>();
 
         for (RunDetail detail : runDetails) {
@@ -249,6 +332,11 @@ public class ExperimentBatchRunner {
                 sumNodeCount += nodeCount;
                 minNodeCount = Math.min(minNodeCount, nodeCount);
                 maxNodeCount = Math.max(maxNodeCount, nodeCount);
+
+                long time = result.timeMs();
+                sumTime += time;
+                minTime = Math.min(minTime, time);
+                maxTime = Math.max(maxTime, time);
             }
 
             aggregates.add(new AggregateStats(
@@ -269,7 +357,10 @@ public class ExperimentBatchRunner {
                     maxReward,
                     (double) sumNodeCount / runs,
                     minNodeCount,
-                    maxNodeCount
+                    maxNodeCount,
+                    (double) sumTime / runs,
+                    minTime,
+                    maxTime
             ));
         }
 
@@ -287,7 +378,7 @@ public class ExperimentBatchRunner {
         }
 
         List<String> lines = new ArrayList<>();
-        lines.add("instance,method,run,seed,nodeCount,totalReward,totalDistance,phase1Distance,objective,tourFile,tour");
+        lines.add("instance,method,run,seed,nodeCount,totalReward,totalDistance,phase1Distance,objective,tourFile,tour,timeMs");
 
         for (RunDetail detail : runDetails) {
             String tour = detail.result.tour().stream()
@@ -305,7 +396,8 @@ public class ExperimentBatchRunner {
                     Integer.toString(detail.result.phase1Distance()),
                     Integer.toString(detail.result.objectiveValue()),
                     detail.tourFile.toString(),
-                    "\"" + tour + "\""
+                    "\"" + tour + "\"",
+                    Long.toString(detail.result.timeMs())
             ));
         }
 
@@ -319,7 +411,7 @@ public class ExperimentBatchRunner {
         }
 
         List<String> lines = new ArrayList<>();
-        lines.add("instance,method,runs,avgObjective,minObjective,maxObjective,avgDistance,minDistance,maxDistance,avgPhase1Distance,minPhase1Distance,maxPhase1Distance,avgReward,minReward,maxReward,avgNodeCount,minNodeCount,maxNodeCount");
+        lines.add("instance,method,runs,avgObjective,minObjective,maxObjective,avgDistance,minDistance,maxDistance,avgPhase1Distance,minPhase1Distance,maxPhase1Distance,avgReward,minReward,maxReward,avgNodeCount,minNodeCount,maxNodeCount,avgTimeMs,minTimeMs,maxTimeMs");
 
         for (AggregateStats stats : aggregates) {
             lines.add(String.join(",",
@@ -340,7 +432,10 @@ public class ExperimentBatchRunner {
                     Integer.toString(stats.maxReward),
                     formatDouble(stats.avgNodeCount),
                     Integer.toString(stats.minNodeCount),
-                    Integer.toString(stats.maxNodeCount)
+                    Integer.toString(stats.maxNodeCount),
+                    formatDouble(stats.avgTimeMs),
+                    Long.toString(stats.minTimeMs),
+                    Long.toString(stats.maxTimeMs)
             ));
         }
 
@@ -374,6 +469,10 @@ public class ExperimentBatchRunner {
         lines.add("");
         lines.add(buildMarkdownTable(instanceNames, aggregates, MetricType.PHASE1_DISTANCE));
         lines.add("");
+        lines.add("## Time [ms]: average (min - max)");
+        lines.add("");
+        lines.add(buildMarkdownTable(instanceNames, aggregates, MetricType.TIME));
+        lines.add("");
         lines.add("## Notes");
         lines.add("- `details_runs.csv` contains every single run and the complete tour.");
         lines.add("- Full tour files are in `outputs/runs/<method>/<instance>/run_XXX.txt`.");
@@ -385,7 +484,8 @@ public class ExperimentBatchRunner {
     private enum MetricType {
         OBJECTIVE,
         FINAL_DISTANCE,
-        PHASE1_DISTANCE
+        PHASE1_DISTANCE,
+        TIME
     }
 
     private String buildMarkdownTable(List<String> instanceNames, List<AggregateStats> aggregates, MetricType metricType) {
@@ -436,6 +536,7 @@ public class ExperimentBatchRunner {
             case OBJECTIVE -> formatDouble(stats.avgObjective) + " (" + stats.minObjective + " - " + stats.maxObjective + ")";
             case FINAL_DISTANCE -> formatDouble(stats.avgDistance) + " (" + stats.minDistance + " - " + stats.maxDistance + ")";
             case PHASE1_DISTANCE -> formatDouble(stats.avgPhase1Distance) + " (" + stats.minPhase1Distance + " - " + stats.maxPhase1Distance + ")";
+            case TIME -> formatDouble(stats.avgTimeMs) + "ms (" + stats.minTimeMs + " - " + stats.maxTimeMs + ")";
         };
     }
 

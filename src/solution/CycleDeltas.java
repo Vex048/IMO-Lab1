@@ -32,5 +32,21 @@ public final class CycleDeltas {
         int node = cycle.get(positionIndex);
         return -instance.reward(node) - removalDistanceDelta(instance, cycle, positionIndex);
     }
+
+    // TODO we can change method signatures this is just a mock
+    public static int exchangeObjectiveDelta(Instance instance, List<Integer> tour, int tourIndex, int unvisitedNode) {
+        // TODO
+        return 0;
+    }
+
+    public static int vertexSwapObjectiveDelta(Instance instance, List<Integer> tour, int index1, int index2) {
+        // TODO
+        return 0;
+    }
+
+    public static int edgeSwapObjectiveDelta(Instance instance, List<Integer> tour, int index1, int index2) {
+        // TODO
+        return 0;
+    }
 }
 
