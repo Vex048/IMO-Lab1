@@ -10,8 +10,7 @@ public class Main {
         try {
             List<Path> datasets = List.of(
                     Paths.get("datasets/TSPA.csv"),
-                    Paths.get("datasets/TSPB.csv")
-            );
+                    Paths.get("datasets/TSPB.csv"));
 
             EnumSet<ExperimentBatchRunner.Method> methods = EnumSet.of(
                     ExperimentBatchRunner.Method.LS_STEEPEST_VERTEX_RANDOM,
@@ -22,8 +21,7 @@ public class Main {
                     ExperimentBatchRunner.Method.LS_GREEDY_VERTEX_HEURISTIC,
                     ExperimentBatchRunner.Method.LS_GREEDY_EDGE_RANDOM,
                     ExperimentBatchRunner.Method.LS_GREEDY_EDGE_HEURISTIC,
-                    ExperimentBatchRunner.Method.RANDOM_WALK
-            );
+                    ExperimentBatchRunner.Method.RANDOM_WALK);
 
             int runsPerCombination = 100;
             int startNode = -1;
@@ -36,8 +34,7 @@ public class Main {
                     runsPerCombination,
                     startNode,
                     baseSeed,
-                    outputDir
-            );
+                    outputDir);
 
             ExperimentBatchRunner.BatchArtifacts artifacts = runner.runAll();
 

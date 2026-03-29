@@ -4,39 +4,60 @@
 
 | Method | TSPA | TSPB |
 |---|---|---|
-| Random | -147707.64 (-311268 - 233) | -140190.08 (-300916 - 100) |
-| NN_Distance | 2562.12 (-2121 - 5971) | 13255.75 (10375 - 16455) |
-| NN_Cost | -866.55 (-3899 - 2712) | 5717.60 (2251 - 9016) |
-| GreedyCycle_Distance | 3484.70 (1894 - 4368) | 13609.83 (12527 - 15375) |
-| GreedyCycle_Objective | 3678.74 (2936 - 4506) | 15108.36 (14181 - 16106) |
-| RegretCycle | 6215.08 (5294 - 7360) | 18036.36 (16668 - 19486) |
-| WeightedRegrestCycle | 5980.41 (4129 - 7208) | 18132.40 (17040 - 19080) |
+| LS_Steepest_Vertex_Random | -9507.98 (-19806 - -1886) | -713.98 (-7702 - 5415) |
+| LS_Steepest_Vertex_Heuristic | 6318.76 (5468 - 7318) | 18170.30 (16863 - 19560) |
+| LS_Steepest_Edge_Random | 3472.60 (568 - 4879) | 12902.78 (11265 - 14169) |
+| LS_Steepest_Edge_Heuristic | 6352.37 (5343 - 7318) | 18449.09 (17278 - 19410) |
+| LS_Greedy_Vertex_Random | -7587.31 (-13791 - -2303) | 2316.76 (-2717 - 7756) |
+| LS_Greedy_Vertex_Heuristic | 6296.76 (5343 - 7385) | 18168.26 (16863 - 19331) |
+| LS_Greedy_Edge_Random | 3705.24 (1307 - 5496) | 12912.27 (10085 - 14365) |
+| LS_Greedy_Edge_Heuristic | 6311.37 (5343 - 7385) | 18377.16 (17476 - 19455) |
+| RandomWalk | -125966.21 (-140838 - -113304) | -117936.56 (-124463 - -108242) |
 
 
 ## Path length (totalDistance): average (min - max)
 
 | Method | TSPA | TSPB |
 |---|---|---|
-| Random | 165215.78 (0 - 345142) | 164284.01 (0 - 349075) |
-| NN_Distance | 29560.22 (25951 - 34636) | 32509.98 (27996 - 35977) |
-| NN_Cost | 31647.94 (28105 - 35285) | 38614.62 (34284 - 42438) |
-| GreedyCycle_Distance | 28019.83 (26760 - 29992) | 30454.70 (28027 - 32406) |
-| GreedyCycle_Objective | 28309.72 (27128 - 29934) | 29354.46 (27956 - 30766) |
-| RegretCycle | 26670.48 (24846 - 28130) | 27311.93 (24955 - 29066) |
-| WeightedRegrestCycle | 26860.84 (24936 - 29119) | 27040.21 (25084 - 29324) |
+| LS_Steepest_Vertex_Random | 32744.20 (25547 - 42232) | 33399.72 (26834 - 40921) |
+| LS_Steepest_Vertex_Heuristic | 26528.25 (24669 - 28119) | 27241.59 (24974 - 28871) |
+| LS_Steepest_Edge_Random | 19474.55 (17611 - 21883) | 19307.65 (17747 - 21244) |
+| LS_Steepest_Edge_Heuristic | 26509.35 (24669 - 28119) | 26981.86 (25201 - 28692) |
+| LS_Greedy_Vertex_Random | 29824.88 (24941 - 36740) | 29660.60 (24702 - 35312) |
+| LS_Greedy_Vertex_Heuristic | 26573.10 (24843 - 27840) | 27350.71 (25397 - 29056) |
+| LS_Greedy_Edge_Random | 18788.59 (16530 - 21069) | 19157.04 (16874 - 22175) |
+| LS_Greedy_Edge_Heuristic | 26542.03 (24753 - 28119) | 27147.36 (25201 - 28872) |
+| RandomWalk | 143712.13 (130408 - 159058) | 142258.42 (131425 - 148856) |
 
 
 ## Path length after phase I (phase1Distance): average (min - max)
 
 | Method | TSPA | TSPB |
 |---|---|---|
-| Random | 165215.78 (0 - 345142) | 164284.01 (0 - 349075) |
-| NN_Distance | 39059.13 (36261 - 43753) | 38923.16 (36456 - 43455) |
-| NN_Cost | 47496.68 (45854 - 49720) | 51107.80 (47096 - 53935) |
-| GreedyCycle_Distance | 36875.57 (36229 - 37787) | 38483.37 (36935 - 39501) |
-| GreedyCycle_Objective | 36216.40 (35422 - 37026) | 36627.27 (35973 - 37502) |
-| RegretCycle | 32376.50 (31454 - 33411) | 32727.47 (31646 - 33532) |
-| WeightedRegrestCycle | 32712.10 (31642 - 33738) | 33059.37 (32086 - 34817) |
+| LS_Steepest_Vertex_Random | 32744.20 (25547 - 42232) | 33399.72 (26834 - 40921) |
+| LS_Steepest_Vertex_Heuristic | 26528.25 (24669 - 28119) | 27241.59 (24974 - 28871) |
+| LS_Steepest_Edge_Random | 19474.55 (17611 - 21883) | 19307.65 (17747 - 21244) |
+| LS_Steepest_Edge_Heuristic | 26509.35 (24669 - 28119) | 26981.86 (25201 - 28692) |
+| LS_Greedy_Vertex_Random | 29824.88 (24941 - 36740) | 29660.60 (24702 - 35312) |
+| LS_Greedy_Vertex_Heuristic | 26573.10 (24843 - 27840) | 27350.71 (25397 - 29056) |
+| LS_Greedy_Edge_Random | 18788.59 (16530 - 21069) | 19157.04 (16874 - 22175) |
+| LS_Greedy_Edge_Heuristic | 26542.03 (24753 - 28119) | 27147.36 (25201 - 28872) |
+| RandomWalk | 143712.13 (130408 - 159058) | 142258.42 (131425 - 148856) |
+
+
+## Time [ms]: average (min - max)
+
+| Method | TSPA | TSPB |
+|---|---|---|
+| LS_Steepest_Vertex_Random | 406.81ms (4 - 119) | 116.88ms (4 - 92) |
+| LS_Steepest_Vertex_Heuristic | 127.12ms (4 - 92) | 5.25ms (4 - 14) |
+| LS_Steepest_Edge_Random | 506.82ms (4 - 119) | 223.64ms (4 - 92) |
+| LS_Steepest_Edge_Heuristic | 79.03ms (4 - 92) | 363.00ms (4 - 92) |
+| LS_Greedy_Vertex_Random | 284.06ms (4 - 92) | 74.23ms (4 - 92) |
+| LS_Greedy_Vertex_Heuristic | 121.86ms (4 - 92) | 368.23ms (4 - 92) |
+| LS_Greedy_Edge_Random | 574.55ms (4 - 119) | 194.95ms (4 - 92) |
+| LS_Greedy_Edge_Heuristic | 357.46ms (4 - 92) | 413.02ms (4 - 119) |
+| RandomWalk | 480.02ms (4 - 119) | 352.06ms (4 - 92) |
 
 
 ## Notes

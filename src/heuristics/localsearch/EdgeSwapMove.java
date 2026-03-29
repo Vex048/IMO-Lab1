@@ -21,10 +21,10 @@ public class EdgeSwapMove implements Move {
 
     @Override
     public void apply(List<Integer> tour, List<Integer> unvisited) {
-        int start = Math.min(index1, index2);
+        int start = Math.min(index1, index2) + 1;
         int end = Math.max(index1, index2);
 
-        // Klasyczny 2-opt: odwrócenie ścieżki między indeksami
+        // Klasyczny 2-opt: odwrócenie ścieżki między indeksami (z pominięciem a i d z delty)
         while (start < end) {
             Collections.swap(tour, start, end);
             start++;
