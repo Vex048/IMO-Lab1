@@ -13,15 +13,10 @@ public class Main {
                     Paths.get("datasets/TSPB.csv"));
 
             EnumSet<ExperimentBatchRunner.Method> methods = EnumSet.of(
-                    ExperimentBatchRunner.Method.LS_STEEPEST_VERTEX_RANDOM,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_VERTEX_HEURISTIC,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_HEURISTIC,
-                    ExperimentBatchRunner.Method.LS_GREEDY_VERTEX_RANDOM,
-                    ExperimentBatchRunner.Method.LS_GREEDY_VERTEX_HEURISTIC,
-                    ExperimentBatchRunner.Method.LS_GREEDY_EDGE_RANDOM,
-                    ExperimentBatchRunner.Method.LS_GREEDY_EDGE_HEURISTIC,
-                    ExperimentBatchRunner.Method.RANDOM_WALK);
+                    ExperimentBatchRunner.Method.LS_STEEPEST_BASELINE,
+                    ExperimentBatchRunner.Method.LS_STEEPEST_MOVE_LIST,
+                    ExperimentBatchRunner.Method.LS_STEEPEST_CANDIDATE,
+                    ExperimentBatchRunner.Method.REGRET_CYCLE);
 
             int runsPerCombination = 100;
             int startNode = -1;
