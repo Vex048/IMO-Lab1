@@ -1,15 +1,14 @@
 package experiments;
 
+import heuristics.Heuristic;
 import heuristics.NearestNeighbourCostHeuristic;
 import heuristics.NearestNeighbourDistanceHeuristic;
-import heuristics.Heuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
-import java.nio.file.Path;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class NearestNeighbourExperiment implements Experiment {
     public enum Criterion {
@@ -58,7 +57,10 @@ public class NearestNeighbourExperiment implements Experiment {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
 
         Heuristic h = createHeuristic(criterion, mode);
+        long start = System.currentTimeMillis();
         Solution sol = h.solve(instance, startNode, this.rng);
+        long end = System.currentTimeMillis();
+        long timeMs = end - start;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -70,7 +72,9 @@ public class NearestNeighbourExperiment implements Experiment {
                 sol.getCycle().size(),
                 sol.getTotalReward(),
                 sol.getTotalDistance(),
+                sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                timeMs,
                 sol.getCycle().getTour());
     }
     private Heuristic createHeuristic(Criterion selectedCriterion, Mode selectedMode) {

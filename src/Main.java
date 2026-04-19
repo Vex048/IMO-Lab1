@@ -1,5 +1,4 @@
 import experiments.ExperimentBatchRunner;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.EnumSet;
@@ -13,9 +12,9 @@ public class Main {
                     Paths.get("datasets/TSPB.csv"));
 
             EnumSet<ExperimentBatchRunner.Method> methods = EnumSet.of(
-                    ExperimentBatchRunner.Method.LS_STEEPEST_BASELINE,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_MOVE_LIST,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_CANDIDATE,
+                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM,
+                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM_CANDIDATE,
+                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM_LM,
                     ExperimentBatchRunner.Method.REGRET_CYCLE);
 
             int runsPerCombination = 100;

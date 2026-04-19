@@ -3,11 +3,10 @@ package experiments;
 import heuristics.WeightedTwoRegretHeuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class WeightedTwoRegretExperiment implements Experiment {
     public enum Mode {
@@ -78,7 +77,10 @@ public class WeightedTwoRegretExperiment implements Experiment {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
 
         WeightedTwoRegretHeuristic heuristic = new WeightedTwoRegretHeuristic(regretWeight, greedyWeight, applyReduction);
+        long start = System.currentTimeMillis();
         Solution sol = heuristic.solve(instance, startNode, rng);
+        long end = System.currentTimeMillis();
+        long timeMs = end - start;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -92,6 +94,7 @@ public class WeightedTwoRegretExperiment implements Experiment {
                 sol.getTotalDistance(),
                 sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                timeMs,
                 sol.getCycle().getTour());
     }
 }

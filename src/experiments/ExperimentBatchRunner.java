@@ -1,9 +1,10 @@
 package experiments;
 
+import heuristics.CandidateSteepestLocalSearchHeuristic;
+import heuristics.LmSteepestLocalSearchHeuristic;
 import heuristics.RegretCycleHeuristic;
 import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.SearchStrategy;
-import heuristics.localsearch.SteepestAccelerationMode;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,46 +58,10 @@ public class ExperimentBatchRunner {
             }
             
         },
-        LS_STEEPEST_BASELINE("LS_Steepest_Baseline") {
+        WEIGHTED_REGRET_CYCLE("WeightedRegrestCycle"){
             @Override
-            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
-                return new LocalSearchExperiment(ds,
-                        SearchStrategy.STEEPEST,
-                        IntraRouteNeighborhood.EDGE_SWAP,
-                        null,
-                        SteepestAccelerationMode.NONE,
-                        10,
-                        sn,
-                        sp,
-                        r);
-            }
-        },
-        LS_STEEPEST_MOVE_LIST("LS_Steepest_MoveList") {
-            @Override
-            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
-                return new LocalSearchExperiment(ds,
-                        SearchStrategy.STEEPEST,
-                        IntraRouteNeighborhood.EDGE_SWAP,
-                        null,
-                        SteepestAccelerationMode.MOVE_LIST,
-                        10,
-                        sn,
-                        sp,
-                        r);
-            }
-        },
-        LS_STEEPEST_CANDIDATE("LS_Steepest_Candidate_k10") {
-            @Override
-            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
-                return new LocalSearchExperiment(ds,
-                        SearchStrategy.STEEPEST,
-                        IntraRouteNeighborhood.EDGE_SWAP,
-                        null,
-                        SteepestAccelerationMode.CANDIDATE,
-                        10,
-                        sn,
-                        sp,
-                        r);
+            Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs) {
+                return new WeightedTwoRegretExperiment(datasetPath, startNode,10.0 ,savePath, rng);
             }
         },
         LS_STEEPEST_VERTEX_RANDOM("LS_Steepest_Vertex_Random") {
@@ -115,6 +80,30 @@ public class ExperimentBatchRunner {
             @Override
             Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
                 return new LocalSearchExperiment(ds, SearchStrategy.STEEPEST, IntraRouteNeighborhood.EDGE_SWAP, null, sn, sp, r);
+            }
+        },
+        LS_STEEPEST_EDGE_RANDOM_CANDIDATE("LS_Steepest_Edge_Random_Candidate") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new CandidateSteepestLocalSearchHeuristic(IntraRouteNeighborhood.EDGE_SWAP, null, 10),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        LS_STEEPEST_EDGE_RANDOM_LM("LS_Steepest_Edge_Random_LM") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new LmSteepestLocalSearchHeuristic(IntraRouteNeighborhood.EDGE_SWAP, null),
+                        sn,
+                        sp,
+                        r
+                );
             }
         },
         LS_STEEPEST_EDGE_HEURISTIC("LS_Steepest_Edge_Heuristic") {

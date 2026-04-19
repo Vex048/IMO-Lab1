@@ -3,11 +3,10 @@ package experiments;
 import heuristics.RandomHeuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class RandomExperiment implements Experiment {
     private final Path datasetPath;
@@ -38,7 +37,10 @@ public class RandomExperiment implements Experiment {
     public ExperimentResult run() throws Exception {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
         RandomHeuristic heuristic = new RandomHeuristic();
+        long start = System.currentTimeMillis();
         Solution sol = heuristic.solve(instance, startNode, rng);
+        long end = System.currentTimeMillis();
+        long timeMs = end - start;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -54,6 +56,7 @@ public class RandomExperiment implements Experiment {
                 sol.getTotalDistance(),
                 sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                timeMs,
                 sol.getCycle().getTour());
     }
 }
