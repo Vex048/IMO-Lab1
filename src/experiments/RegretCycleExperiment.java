@@ -3,11 +3,10 @@ package experiments;
 import heuristics.RegretCycleHeuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class RegretCycleExperiment implements Experiment {
     private final Path datasetPath;
@@ -44,7 +43,10 @@ public class RegretCycleExperiment implements Experiment {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
 
         RegretCycleHeuristic heuristic = new RegretCycleHeuristic();
+        long start = System.currentTimeMillis();
         Solution sol = heuristic.solve(instance, startNode, rng);
+        long end = System.currentTimeMillis();
+        long timeMs = end - start;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -60,6 +62,7 @@ public class RegretCycleExperiment implements Experiment {
                 sol.getTotalDistance(),
                 sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                timeMs,
                 sol.getCycle().getTour());
     }
 }

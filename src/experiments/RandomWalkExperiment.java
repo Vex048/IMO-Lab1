@@ -4,11 +4,10 @@ import heuristics.Heuristic;
 import heuristics.RandomWalkHeuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class RandomWalkExperiment implements Experiment {
     private final Path datasetPath;

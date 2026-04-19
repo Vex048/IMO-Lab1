@@ -5,11 +5,10 @@ import heuristics.GreedyCycleObjectiveHeuristic;
 import heuristics.Heuristic;
 import instance.Instance;
 import instance.InstanceLoader;
-import solution.Solution;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
+import solution.Solution;
 
 public class GreedyCycleExperiment implements Experiment {
     public enum Mode {
@@ -52,7 +51,10 @@ public class GreedyCycleExperiment implements Experiment {
     public ExperimentResult run() throws Exception {
         Instance instance = InstanceLoader.loadFromFile(datasetPath);
         Heuristic heuristic = createHeuristic(mode);
+        long start = System.currentTimeMillis();
         Solution sol = heuristic.solve(instance, startNode, rng);
+        long end = System.currentTimeMillis();
+        long timeMs = end - start;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -68,6 +70,7 @@ public class GreedyCycleExperiment implements Experiment {
                 sol.getTotalDistance(),
                 sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                timeMs,
                 sol.getCycle().getTour());
     }
 
