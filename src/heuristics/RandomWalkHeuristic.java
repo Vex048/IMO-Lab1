@@ -4,14 +4,13 @@ import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.Move;
 import heuristics.localsearch.NeighbourhoodGenerator;
 import instance.Instance;
-import solution.Cycle;
-import solution.ObjectiveFunction;
-import solution.Solution;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import solution.Cycle;
+import solution.ObjectiveFunction;
+import solution.Solution;
 
 public class RandomWalkHeuristic implements Heuristic {
 
@@ -40,13 +39,13 @@ public class RandomWalkHeuristic implements Heuristic {
             randomMove.apply(currentTour, currentUnvisited);
 
             Cycle currentCycle = new Cycle(currentTour);
-            int currentObjective = ObjectiveFunction.calculateValue(instance, currentCycle);
+            int currentDistance = ObjectiveFunction.calculateTotalDistance(instance, currentCycle);
+            int currentReward = ObjectiveFunction.calculateTotalReward(instance, currentCycle);
+            int currentObjective = ObjectiveFunction.calculateValue(currentReward, currentDistance);
 
             if (currentObjective > bestObjective) {
                 bestObjective = currentObjective;
-                int finalDistance = ObjectiveFunction.calculateTotalDistance(instance, currentCycle);
-                int finalReward = ObjectiveFunction.calculateTotalReward(instance, currentCycle);
-                bestSolution = new Solution(currentCycle, finalReward, finalDistance, currentObjective);
+                bestSolution = new Solution(currentCycle, currentReward, currentDistance, currentObjective);
             }
         }
 
@@ -83,7 +82,7 @@ public class RandomWalkHeuristic implements Heuristic {
         Cycle finalCycle = new Cycle(randomTour);
         int distance = ObjectiveFunction.calculateTotalDistance(instance, finalCycle);
         int reward = ObjectiveFunction.calculateTotalReward(instance, finalCycle);
-        int objective = ObjectiveFunction.calculateValue(instance, finalCycle);
+        int objective = ObjectiveFunction.calculateValue(reward, distance);
 
         return new Solution(finalCycle, reward, distance, objective);
     }

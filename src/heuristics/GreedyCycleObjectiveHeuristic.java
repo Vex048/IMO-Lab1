@@ -1,14 +1,13 @@
 package heuristics;
 
 import instance.Instance;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import solution.Cycle;
 import solution.CycleDeltas;
 import solution.ObjectiveFunction;
 import solution.Solution;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class GreedyCycleObjectiveHeuristic implements Heuristic {
 
@@ -34,7 +33,7 @@ public class GreedyCycleObjectiveHeuristic implements Heuristic {
         Cycle cycle = new Cycle(cycleNodes);
         int totalDistance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
-        int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
+        int objectiveValue = ObjectiveFunction.calculateValue(totalReward, totalDistance);
         return new Solution(cycle, totalReward, totalDistance, objectiveValue, phase1Distance);
     }
 

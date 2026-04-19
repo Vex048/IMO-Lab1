@@ -1,16 +1,15 @@
 package heuristics;
 
 import instance.Instance;
-import solution.Cycle;
-import solution.ObjectiveFunction;
-import solution.Solution;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import solution.Cycle;
+import solution.ObjectiveFunction;
+import solution.Solution;
 
 public class RandomHeuristic implements Heuristic {
 
@@ -34,7 +33,7 @@ public class RandomHeuristic implements Heuristic {
         Cycle cycle = new Cycle(selected);
         int totalDistance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
-        int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
+        int objectiveValue = ObjectiveFunction.calculateValue(totalReward, totalDistance);
         return new Solution(cycle, totalReward, totalDistance, objectiveValue, totalDistance);
     }
 }

@@ -3,7 +3,6 @@ package experiments;
 import heuristics.RegretCycleHeuristic;
 import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.SearchStrategy;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -269,9 +268,6 @@ public class ExperimentBatchRunner {
     }
 
     private List<AggregateStats> aggregate(List<RunDetail> runDetails) {
-        long sumTime = 0;
-        long minTime = Long.MAX_VALUE;
-        long maxTime = Long.MIN_VALUE;
         Map<String, List<RunDetail>> grouped = new HashMap<>();
 
         for (RunDetail detail : runDetails) {
@@ -284,6 +280,10 @@ public class ExperimentBatchRunner {
         for (List<RunDetail> group : grouped.values()) {
             RunDetail first = group.get(0);
             int runs = group.size();
+
+            long sumTime = 0;
+            long minTime = Long.MAX_VALUE;
+            long maxTime = Long.MIN_VALUE;
 
             int sumObjective = 0;
             int minObjective = Integer.MAX_VALUE;

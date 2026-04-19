@@ -5,14 +5,13 @@ import heuristics.localsearch.Move;
 import heuristics.localsearch.NeighbourhoodGenerator;
 import heuristics.localsearch.SearchStrategy;
 import instance.Instance;
-import solution.Cycle;
-import solution.ObjectiveFunction;
-import solution.Solution;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import solution.Cycle;
+import solution.ObjectiveFunction;
+import solution.Solution;
 
 public class LocalSearchHeuristic implements Heuristic {
 
@@ -74,7 +73,7 @@ public class LocalSearchHeuristic implements Heuristic {
         Cycle finalCycle = new Cycle(tour);
         int finalDistance = ObjectiveFunction.calculateTotalDistance(instance, finalCycle);
         int finalReward = ObjectiveFunction.calculateTotalReward(instance, finalCycle);
-        int finalObjective = ObjectiveFunction.calculateValue(instance, finalCycle);
+        int finalObjective = ObjectiveFunction.calculateValue(finalReward, finalDistance);
 
         return new Solution(finalCycle, finalReward, finalDistance, finalObjective);
     }
@@ -110,7 +109,7 @@ public class LocalSearchHeuristic implements Heuristic {
         Cycle finalCycle = new Cycle(randomTour);
         int distance = ObjectiveFunction.calculateTotalDistance(instance, finalCycle);
         int reward = ObjectiveFunction.calculateTotalReward(instance, finalCycle);
-        int objective = ObjectiveFunction.calculateValue(instance, finalCycle);
+        int objective = ObjectiveFunction.calculateValue(reward, distance);
 
         return new Solution(finalCycle, reward, distance, objective);
     }

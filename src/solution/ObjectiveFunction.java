@@ -26,8 +26,29 @@ public class ObjectiveFunction {
         return reward;
     }
 
+    public static int calculateValue(int totalReward, int totalDistance) {
+        return totalReward - totalDistance;
+    }
+
     public static int calculateValue(Instance instance, Cycle cycle) {
-        return calculateTotalReward(instance, cycle) - calculateTotalDistance(instance, cycle);
+        List<Integer> tour = cycle.getTour();
+        int n = tour.size();
+        if (n == 0) return 0;
+
+        int reward = 0;
+        int distance = 0;
+
+        for (int i = 0; i < n; i++) {
+            int currentNode = tour.get(i);
+            reward += instance.reward(currentNode);
+
+            if (n > 1) {
+                int nextNode = tour.get((i + 1) % n);
+                distance += instance.distance(currentNode, nextNode);
+            }
+        }
+
+        return calculateValue(reward, distance);
     }
 
     public static int calculateInsertObjectiveDelta(Instance instance, List<Integer> tour, int insertAfterIndex, int nodeId) {

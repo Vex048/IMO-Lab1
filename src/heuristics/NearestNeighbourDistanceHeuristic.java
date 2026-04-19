@@ -1,14 +1,13 @@
 package heuristics;
 
 import instance.Instance;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import solution.Cycle;
 import solution.CycleDeltas;
 import solution.ObjectiveFunction;
 import solution.Solution;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class NearestNeighbourDistanceHeuristic implements Heuristic {
     private final boolean applyReduction;
@@ -61,7 +60,7 @@ public class NearestNeighbourDistanceHeuristic implements Heuristic {
         Cycle cycle = new Cycle(tour);
         int totalDistance = ObjectiveFunction.calculateTotalDistance(instance, cycle);
         int totalReward = ObjectiveFunction.calculateTotalReward(instance, cycle);
-        int objectiveValue = ObjectiveFunction.calculateValue(instance, cycle);
+        int objectiveValue = ObjectiveFunction.calculateValue(totalReward, totalDistance);
 
         return new Solution(cycle, totalReward, totalDistance, objectiveValue);
     }
