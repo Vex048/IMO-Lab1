@@ -12,12 +12,12 @@ public class Main {
                     Paths.get("datasets/TSPB.csv"));
 
             EnumSet<ExperimentBatchRunner.Method> methods = EnumSet.of(
-                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM_CANDIDATE,
-                    ExperimentBatchRunner.Method.LS_STEEPEST_EDGE_RANDOM_LM,
-                    ExperimentBatchRunner.Method.REGRET_CYCLE);
+                ExperimentBatchRunner.Method.MSLS,
+                ExperimentBatchRunner.Method.ILS,
+                ExperimentBatchRunner.Method.LNS,
+                ExperimentBatchRunner.Method.LNSA);
 
-            int runsPerCombination = 100;
+            int runsPerCombination = 20;
             int startNode = -1;
             long baseSeed = 20260322L;
             Path outputDir = Paths.get("outputs");

@@ -1,9 +1,9 @@
 instance,method,bestRun,bestObjective,bestTotalDistance,bestPhase1Distance,bestTourFile,worstRun,worstObjective,worstTotalDistance,worstPhase1Distance,worstTourFile
-TSPA,LS_Steepest_Edge_Random,72,7612,20430,20430,outputs\runs\ls_steepest_edge_random\TSPA\run_072.txt,3,4694,24753,24753,outputs\runs\ls_steepest_edge_random\TSPA\run_003.txt
-TSPA,LS_Steepest_Edge_Random_Candidate,77,7413,19400,19400,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_077.txt,8,4473,23997,23997,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_008.txt
-TSPA,LS_Steepest_Edge_Random_LM,6,7616,23056,23056,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_006.txt,92,4827,26596,26596,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_092.txt
-TSPA,RegretCycle,54,7360,25422,31515,outputs\runs\regret_cycle\TSPA\run_054.txt,90,5294,27448,32891,outputs\runs\regret_cycle\TSPA\run_090.txt
-TSPB,LS_Steepest_Edge_Random,87,19480,23678,23678,outputs\runs\ls_steepest_edge_random\TSPB\run_087.txt,41,16193,25567,25567,outputs\runs\ls_steepest_edge_random\TSPB\run_041.txt
-TSPB,LS_Steepest_Edge_Random_Candidate,34,19189,23853,23853,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_034.txt,97,16167,24093,24093,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_097.txt
-TSPB,LS_Steepest_Edge_Random_LM,68,19347,22760,22760,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_068.txt,48,16045,23961,23961,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_048.txt
-TSPB,RegretCycle,6,19401,25210,32238,outputs\runs\regret_cycle\TSPB\run_006.txt,54,17209,27927,33322,outputs\runs\regret_cycle\TSPB\run_054.txt
+TSPA,ILS,6,8666,21048,21048,outputs\runs\ils\TSPA\run_006.txt,18,7903,23852,23852,outputs\runs\ils\TSPA\run_018.txt
+TSPA,LNS,9,8529,23020,23020,outputs\runs\lns\TSPA\run_009.txt,4,7597,25502,25502,outputs\runs\lns\TSPA\run_004.txt
+TSPA,LNSa,11,8533,23353,23353,outputs\runs\lnsa\TSPA\run_011.txt,5,7294,25587,25587,outputs\runs\lnsa\TSPA\run_005.txt
+TSPA,MSLS,17,8055,22972,22972,outputs\runs\msls\TSPA\run_017.txt,19,7561,22452,22452,outputs\runs\msls\TSPA\run_019.txt
+TSPB,ILS,18,20203,23680,23680,outputs\runs\ils\TSPB\run_018.txt,9,19304,24853,24853,outputs\runs\ils\TSPB\run_009.txt
+TSPB,LNS,2,20014,25096,25096,outputs\runs\lns\TSPB\run_002.txt,1,19478,25476,25476,outputs\runs\lns\TSPB\run_001.txt
+TSPB,LNSa,9,20055,24852,24852,outputs\runs\lnsa\TSPB\run_009.txt,13,19362,25679,25679,outputs\runs\lnsa\TSPB\run_013.txt
+TSPB,MSLS,14,19765,24083,24083,outputs\runs\msls\TSPB\run_014.txt,8,19155,22508,22508,outputs\runs\msls\TSPB\run_008.txt

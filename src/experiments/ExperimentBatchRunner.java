@@ -1,7 +1,10 @@
 package experiments;
 
 import heuristics.CandidateSteepestLocalSearchHeuristic;
+import heuristics.IlsHeuristic;
 import heuristics.LmSteepestLocalSearchHeuristic;
+import heuristics.LnsHeuristic;
+import heuristics.MslsHeuristic;
 import heuristics.RegretCycleHeuristic;
 import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.SearchStrategy;
@@ -19,6 +22,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ExperimentBatchRunner {
+    private static final double LNS_DESTROY_FRACTION = 0.35;
+
 
     public enum Method {
         RANDOM("Random") {
@@ -94,12 +99,60 @@ public class ExperimentBatchRunner {
                 );
             }
         },
-        LS_STEEPEST_EDGE_RANDOM_LM("LS_Steepest_Edge_Random_LM") {
+        LS_STEEPEST_EDGE_RANDOM_LM("LS_Steepest_MoveList") {
             @Override
             Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
                 return new LocalSearchExperiment(
                         ds,
                         new LmSteepestLocalSearchHeuristic(IntraRouteNeighborhood.EDGE_SWAP, null),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        MSLS("MSLS") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new MslsHeuristic(new LmSteepestLocalSearchHeuristic(IntraRouteNeighborhood.EDGE_SWAP, null), 200),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        ILS("ILS") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new IlsHeuristic(timeLimitMs, 5, IntraRouteNeighborhood.EDGE_SWAP),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        LNS("LNS") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new LnsHeuristic(timeLimitMs, LNS_DESTROY_FRACTION, true, IntraRouteNeighborhood.EDGE_SWAP),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        LNSA("LNSa") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new LnsHeuristic(timeLimitMs, LNS_DESTROY_FRACTION, false, IntraRouteNeighborhood.EDGE_SWAP),
                         sn,
                         sp,
                         r
@@ -154,6 +207,14 @@ public class ExperimentBatchRunner {
             return label;
         }
 
+        public boolean needsMslsTime() {
+            return this == ILS || this == LNS || this == LNSA;
+        }
+
+        public boolean isMsls() {
+            return this == MSLS;
+        }
+
         abstract Experiment create(Path datasetPath, int startNode, Path savePath, Random rng, long timeLimitMs);
     }
 
@@ -189,6 +250,10 @@ public class ExperimentBatchRunner {
                                   double avgNodeCount,
                                   int minNodeCount,
                                   int maxNodeCount,
+                                  int iterationSamples,
+                                  double avgIterationCount,
+                                  int minIterationCount,
+                                  int maxIterationCount,
                                   double avgTimeMs,
                                   long minTimeMs,
                                   long maxTimeMs) {
@@ -241,9 +306,32 @@ public class ExperimentBatchRunner {
             String instanceName = datasetName(datasetPath);
 
             long maxLSAverageTimeMs = 0;
+            long mslsAverageTimeMs = 0;
+
+            if (methods.contains(Method.MSLS)) {
+                long totalTimeForMethod = 0;
+                for (int runIndex = 1; runIndex <= runsPerCombination; runIndex++) {
+                    long seed = computeSeed(combinationIndex, runIndex);
+                    Random rng = new Random(seed);
+                    Path tourFile = outputDir.resolve("runs").resolve(Method.MSLS.name().toLowerCase(Locale.ROOT)).resolve(instanceName).resolve(String.format("run_%03d.txt", runIndex));
+
+                    Experiment experiment = Method.MSLS.create(datasetPath, startNode, tourFile, rng, 0L);
+                    ExperimentResult result = experiment.run();
+
+                    totalTimeForMethod += result.timeMs();
+                    details.add(new RunDetail(instanceName, Method.MSLS, runIndex, seed, result, tourFile));
+                }
+
+                mslsAverageTimeMs = totalTimeForMethod / runsPerCombination;
+                combinationIndex++;
+            }
 
             for (Method method : methods) {
-                if (method == Method.RANDOM_WALK) continue;
+                if (method == Method.RANDOM_WALK || method.isMsls()) continue;
+
+                if (method.needsMslsTime() && mslsAverageTimeMs == 0) {
+                    throw new IllegalStateException("ILS/LNS requires MSLS to be enabled for time limit calculation.");
+                }
 
                 long totalTimeForMethod = 0;
                 for (int runIndex = 1; runIndex <= runsPerCombination; runIndex++) {
@@ -251,7 +339,8 @@ public class ExperimentBatchRunner {
                     Random rng = new Random(seed);
                     Path tourFile = outputDir.resolve("runs").resolve(method.name().toLowerCase(Locale.ROOT)).resolve(instanceName).resolve(String.format("run_%03d.txt", runIndex));
 
-                    Experiment experiment = method.create(datasetPath, startNode, tourFile, rng, 0L);
+                    long timeLimitMs = method.needsMslsTime() ? mslsAverageTimeMs : 0L;
+                    Experiment experiment = method.create(datasetPath, startNode, tourFile, rng, timeLimitMs);
                     ExperimentResult result = experiment.run();
 
                     totalTimeForMethod += result.timeMs();
@@ -331,6 +420,11 @@ public class ExperimentBatchRunner {
             int minNodeCount = Integer.MAX_VALUE;
             int maxNodeCount = Integer.MIN_VALUE;
 
+            int sumIterationCount = 0;
+            int iterationSamples = 0;
+            int minIterationCount = Integer.MAX_VALUE;
+            int maxIterationCount = Integer.MIN_VALUE;
+
             for (RunDetail detail : group) {
                 ExperimentResult result = detail.result;
 
@@ -359,6 +453,14 @@ public class ExperimentBatchRunner {
                 minNodeCount = Math.min(minNodeCount, nodeCount);
                 maxNodeCount = Math.max(maxNodeCount, nodeCount);
 
+                Integer iterationCount = result.iterationCount();
+                if (iterationCount != null) {
+                    sumIterationCount += iterationCount;
+                    iterationSamples++;
+                    minIterationCount = Math.min(minIterationCount, iterationCount);
+                    maxIterationCount = Math.max(maxIterationCount, iterationCount);
+                }
+
                 long time = result.timeMs();
                 sumTime += time;
                 minTime = Math.min(minTime, time);
@@ -384,6 +486,10 @@ public class ExperimentBatchRunner {
                     (double) sumNodeCount / runs,
                     minNodeCount,
                     maxNodeCount,
+                    iterationSamples,
+                    iterationSamples == 0 ? Double.NaN : (double) sumIterationCount / iterationSamples,
+                    iterationSamples == 0 ? 0 : minIterationCount,
+                    iterationSamples == 0 ? 0 : maxIterationCount,
                     (double) sumTime / runs,
                     minTime,
                     maxTime
@@ -404,7 +510,7 @@ public class ExperimentBatchRunner {
         }
 
         List<String> lines = new ArrayList<>();
-        lines.add("instance,method,run,seed,nodeCount,totalReward,totalDistance,phase1Distance,objective,tourFile,tour,timeMs");
+        lines.add("instance,method,run,seed,nodeCount,totalReward,totalDistance,phase1Distance,objective,iterations,tourFile,tour,timeMs");
 
         for (RunDetail detail : runDetails) {
             String tour = detail.result.tour().stream()
@@ -421,6 +527,7 @@ public class ExperimentBatchRunner {
                     Integer.toString(detail.result.totalDistance()),
                     Integer.toString(detail.result.phase1Distance()),
                     Integer.toString(detail.result.objectiveValue()),
+                    formatInteger(detail.result.iterationCount()),
                     detail.tourFile.toString(),
                     "\"" + tour + "\"",
                     Long.toString(detail.result.timeMs())
@@ -437,7 +544,7 @@ public class ExperimentBatchRunner {
         }
 
         List<String> lines = new ArrayList<>();
-        lines.add("instance,method,runs,avgObjective,minObjective,maxObjective,avgDistance,minDistance,maxDistance,avgPhase1Distance,minPhase1Distance,maxPhase1Distance,avgReward,minReward,maxReward,avgNodeCount,minNodeCount,maxNodeCount,avgTimeMs,minTimeMs,maxTimeMs");
+        lines.add("instance,method,runs,avgObjective,minObjective,maxObjective,avgDistance,minDistance,maxDistance,avgPhase1Distance,minPhase1Distance,maxPhase1Distance,avgReward,minReward,maxReward,avgNodeCount,minNodeCount,maxNodeCount,avgIterations,minIterations,maxIterations,avgTimeMs,minTimeMs,maxTimeMs");
 
         for (AggregateStats stats : aggregates) {
             lines.add(String.join(",",
@@ -459,6 +566,9 @@ public class ExperimentBatchRunner {
                     formatDouble(stats.avgNodeCount),
                     Integer.toString(stats.minNodeCount),
                     Integer.toString(stats.maxNodeCount),
+                    formatIterationAverage(stats),
+                    formatIterationMinimum(stats),
+                    formatIterationMaximum(stats),
                     formatDouble(stats.avgTimeMs),
                     Long.toString(stats.minTimeMs),
                     Long.toString(stats.maxTimeMs)
@@ -495,6 +605,10 @@ public class ExperimentBatchRunner {
         lines.add("");
         lines.add(buildMarkdownTable(instanceNames, aggregates, MetricType.PHASE1_DISTANCE));
         lines.add("");
+        lines.add("## Iterations/perturbations: average (min - max)");
+        lines.add("");
+        lines.add(buildMarkdownTable(instanceNames, aggregates, MetricType.ITERATIONS));
+        lines.add("");
         lines.add("## Time [ms]: average (min - max)");
         lines.add("");
         lines.add(buildMarkdownTable(instanceNames, aggregates, MetricType.TIME));
@@ -511,6 +625,7 @@ public class ExperimentBatchRunner {
         OBJECTIVE,
         FINAL_DISTANCE,
         PHASE1_DISTANCE,
+        ITERATIONS,
         TIME
     }
 
@@ -562,6 +677,9 @@ public class ExperimentBatchRunner {
             case OBJECTIVE -> formatDouble(stats.avgObjective) + " (" + stats.minObjective + " - " + stats.maxObjective + ")";
             case FINAL_DISTANCE -> formatDouble(stats.avgDistance) + " (" + stats.minDistance + " - " + stats.maxDistance + ")";
             case PHASE1_DISTANCE -> formatDouble(stats.avgPhase1Distance) + " (" + stats.minPhase1Distance + " - " + stats.maxPhase1Distance + ")";
+            case ITERATIONS -> stats.iterationSamples == 0
+                    ? "-"
+                    : formatDouble(stats.avgIterationCount) + " (" + stats.minIterationCount + " - " + stats.maxIterationCount + ")";
             case TIME -> formatDouble(stats.avgTimeMs) + "ms (" + stats.minTimeMs + " - " + stats.maxTimeMs + ")";
         };
     }
@@ -610,6 +728,22 @@ public class ExperimentBatchRunner {
 
     private String formatDouble(double value) {
         return String.format(Locale.US, "%.2f", value);
+    }
+
+    private String formatInteger(Integer value) {
+        return value == null ? "" : value.toString();
+    }
+
+    private String formatIterationAverage(AggregateStats stats) {
+        return stats.iterationSamples == 0 ? "" : formatDouble(stats.avgIterationCount);
+    }
+
+    private String formatIterationMinimum(AggregateStats stats) {
+        return stats.iterationSamples == 0 ? "" : Integer.toString(stats.minIterationCount);
+    }
+
+    private String formatIterationMaximum(AggregateStats stats) {
+        return stats.iterationSamples == 0 ? "" : Integer.toString(stats.maxIterationCount);
     }
 }
 

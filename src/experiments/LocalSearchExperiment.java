@@ -1,6 +1,7 @@
 package experiments;
 
 import heuristics.Heuristic;
+import heuristics.IterationCountProvider;
 import heuristics.LocalSearchHeuristic;
 import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.SearchStrategy;
@@ -54,6 +55,9 @@ public class LocalSearchExperiment implements Experiment {
         Solution sol = h.solve(instance, startNode, rng);
         long end = System.currentTimeMillis();
         long timeMs = end - start;
+        Integer iterationCount = (h instanceof IterationCountProvider provider)
+                ? provider.getIterationCount()
+                : null;
 
         if (savePath != null) {
             Path parent = savePath.getParent();
@@ -67,6 +71,7 @@ public class LocalSearchExperiment implements Experiment {
                 sol.getTotalDistance(),
                 sol.getPhase1Distance(),
                 sol.objectiveValue(),
+                iterationCount,
                 timeMs,
                 sol.getCycle().getTour()
         );
