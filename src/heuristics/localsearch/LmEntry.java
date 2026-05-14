@@ -3,7 +3,9 @@ package heuristics.localsearch;
 public final class LmEntry {
     public enum Kind {
         NODE_EXCHANGE,
-        EDGE_SWAP
+        EDGE_SWAP,
+        ADD_NODE,
+        REMOVE_NODE
     }
 
     private final Kind kind;
@@ -91,6 +93,48 @@ public final class LmEntry {
                 edge2To
         );
     }
+
+        public static LmEntry forAddNode(Move move,
+                         int cachedDelta,
+                         int insertedNode,
+                         int edgeFrom,
+                         int edgeTo) {
+        return new LmEntry(
+            Kind.ADD_NODE,
+            move,
+            cachedDelta,
+            -1,
+            insertedNode,
+            -1,
+            -1,
+            -1,
+            edgeFrom,
+            edgeTo,
+            -1,
+            -1
+        );
+        }
+
+        public static LmEntry forRemoveNode(Move move,
+                        int cachedDelta,
+                        int removedNode,
+                        int expectedPrev,
+                        int expectedNext) {
+        return new LmEntry(
+            Kind.REMOVE_NODE,
+            move,
+            cachedDelta,
+            -1,
+            -1,
+            removedNode,
+            expectedPrev,
+            expectedNext,
+            -1,
+            -1,
+            -1,
+            -1
+        );
+        }
 
     public Kind kind() {
         return kind;

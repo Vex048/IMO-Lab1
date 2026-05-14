@@ -19,6 +19,12 @@ public final class MoveApplicabilityChecker {
         if (entry.kind() == LmEntry.Kind.NODE_EXCHANGE) {
             return evaluateNodeExchange(entry, tour, isUnvisited);
         }
+        if (entry.kind() == LmEntry.Kind.ADD_NODE) {
+            return evaluateAddNode(entry, tour, isUnvisited, nodeToIndex);
+        }
+        if (entry.kind() == LmEntry.Kind.REMOVE_NODE) {
+            return evaluateRemoveNode(entry, tour, nodeToIndex);
+        }
         if (entry.kind() == LmEntry.Kind.EDGE_SWAP) {
             return evaluateEdgeSwap(entry, tour, nodeToIndex);
         }
@@ -48,6 +54,52 @@ public final class MoveApplicabilityChecker {
         }
 
         if (currentPrev == entry.expectedPrev() && currentNext == entry.expectedNext()) {
+            return MoveApplicability.APPLICABLE;
+        }
+
+        return MoveApplicability.DISCARD;
+    }
+
+    private static MoveApplicability evaluateAddNode(LmEntry entry,
+                                                     List<Integer> tour,
+                                                     boolean[] isUnvisited,
+                                                     int[] nodeToIndex) {
+        int inserted = entry.insertedNode();
+        if (inserted < 0 || inserted >= isUnvisited.length || !isUnvisited[inserted]) {
+            return MoveApplicability.DISCARD;
+        }
+
+        EdgeDirection edgeDirection = edgeDirection(entry.edge1From(), entry.edge1To(), tour, nodeToIndex);
+        if (edgeDirection == EdgeDirection.MISSING) {
+            return MoveApplicability.DISCARD;
+        }
+
+        return MoveApplicability.APPLICABLE;
+    }
+
+    private static MoveApplicability evaluateRemoveNode(LmEntry entry,
+                                                        List<Integer> tour,
+                                                        int[] nodeToIndex) {
+        int node = entry.expectedNode();
+        if (node < 0 || node >= nodeToIndex.length) {
+            return MoveApplicability.DISCARD;
+        }
+
+        int index = nodeToIndex[node];
+        if (index < 0) {
+            return MoveApplicability.DISCARD;
+        }
+
+        int n = tour.size();
+        if (n == 0) {
+            return MoveApplicability.DISCARD;
+        }
+
+        int currentPrev = tour.get((index - 1 + n) % n);
+        int currentNext = tour.get((index + 1) % n);
+
+        if ((currentPrev == entry.expectedPrev() && currentNext == entry.expectedNext())
+                || (currentPrev == entry.expectedNext() && currentNext == entry.expectedPrev())) {
             return MoveApplicability.APPLICABLE;
         }
 

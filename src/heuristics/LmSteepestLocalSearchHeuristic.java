@@ -1,11 +1,13 @@
 package heuristics;
 
+import heuristics.localsearch.AddNodeMove;
 import heuristics.localsearch.EdgeSwapMove;
 import heuristics.localsearch.IntraRouteNeighborhood;
 import heuristics.localsearch.LmEntry;
 import heuristics.localsearch.MoveApplicabilityChecker;
 import heuristics.localsearch.MoveApplicabilityChecker.MoveApplicability;
 import heuristics.localsearch.NodeExchangeMove;
+import heuristics.localsearch.RemoveNodeMove;
 import instance.Instance;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,12 +124,12 @@ public class LmSteepestLocalSearchHeuristic implements Heuristic {
             int next = tour.get((i + 1) % cycleSize);
 
             for (int candidateNode : unvisited) {
-                NodeExchangeMove move = new NodeExchangeMove(i, candidateNode);
-                int delta = move.evaluateDelta(instance, tour);
-                if (delta > 0) {
+                NodeExchangeMove exchangeMove = new NodeExchangeMove(i, candidateNode);
+                int exchangeDelta = exchangeMove.evaluateDelta(instance, tour);
+                if (exchangeDelta > 0) {
                     lm.add(LmEntry.forNodeExchange(
-                            move,
-                            delta,
+                            exchangeMove,
+                            exchangeDelta,
                             i,
                             candidateNode,
                             current,
@@ -135,6 +137,30 @@ public class LmSteepestLocalSearchHeuristic implements Heuristic {
                             next
                     ));
                 }
+
+                AddNodeMove addMove = new AddNodeMove(i, candidateNode);
+                int addDelta = addMove.evaluateDelta(instance, tour);
+                if (addDelta > 0) {
+                    lm.add(LmEntry.forAddNode(
+                            addMove,
+                            addDelta,
+                            candidateNode,
+                            current,
+                            next
+                    ));
+                }
+            }
+
+            RemoveNodeMove removeMove = new RemoveNodeMove(i);
+            int removeDelta = removeMove.evaluateDelta(instance, tour);
+            if (removeDelta > 0) {
+                lm.add(LmEntry.forRemoveNode(
+                        removeMove,
+                        removeDelta,
+                        current,
+                        prev,
+                        next
+                ));
             }
         }
 
@@ -182,6 +208,25 @@ public class LmSteepestLocalSearchHeuristic implements Heuristic {
                             int[] nodeToIndex) {
         if (entry.kind() == LmEntry.Kind.NODE_EXCHANGE) {
             entry.move().apply(tour, unvisited);
+            return;
+        }
+
+        if (entry.kind() == LmEntry.Kind.ADD_NODE) {
+            int insertAfterIndex;
+            if (isForwardEdge(entry.edge1From(), entry.edge1To(), tour, nodeToIndex)) {
+                insertAfterIndex = nodeToIndex[entry.edge1From()];
+            } else {
+                insertAfterIndex = nodeToIndex[entry.edge1To()];
+            }
+            new AddNodeMove(insertAfterIndex, entry.insertedNode()).apply(tour, unvisited);
+            return;
+        }
+
+        if (entry.kind() == LmEntry.Kind.REMOVE_NODE) {
+            int index = nodeToIndex[entry.expectedNode()];
+            if (index >= 0) {
+                new RemoveNodeMove(index).apply(tour, unvisited);
+            }
             return;
         }
 

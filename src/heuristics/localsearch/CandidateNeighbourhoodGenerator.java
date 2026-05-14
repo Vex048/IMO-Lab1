@@ -46,6 +46,11 @@ public final class CandidateNeighbourhoodGenerator {
 
             for (int node : candidateUnvisitedNodes) {
                 neighbourhood.add(new NodeExchangeMove(i, node));
+                neighbourhood.add(new AddNodeMove(i, node));
+            }
+
+            if (candidateLists.isCandidateEdge(prev, next)) {
+                neighbourhood.add(new RemoveNodeMove(i));
             }
         }
 

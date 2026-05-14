@@ -1,9 +1,9 @@
 instance,method,bestRun,bestObjective,bestTotalDistance,bestPhase1Distance,bestTourFile,worstRun,worstObjective,worstTotalDistance,worstPhase1Distance,worstTourFile
-TSPA,LS_Steepest_Edge_Random,20,5411,17390,17390,outputs\runs\ls_steepest_edge_random\TSPA\run_020.txt,14,1595,21068,21068,outputs\runs\ls_steepest_edge_random\TSPA\run_014.txt
-TSPA,LS_Steepest_Edge_Random_Candidate,86,5509,17228,17228,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_086.txt,76,1478,20459,20459,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_076.txt
-TSPA,LS_Steepest_Edge_Random_LM,52,5489,17452,17452,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_052.txt,7,1784,21660,21660,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_007.txt
+TSPA,LS_Steepest_Edge_Random,72,7612,20430,20430,outputs\runs\ls_steepest_edge_random\TSPA\run_072.txt,3,4694,24753,24753,outputs\runs\ls_steepest_edge_random\TSPA\run_003.txt
+TSPA,LS_Steepest_Edge_Random_Candidate,77,7413,19400,19400,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_077.txt,8,4473,23997,23997,outputs\runs\ls_steepest_edge_random_candidate\TSPA\run_008.txt
+TSPA,LS_Steepest_Edge_Random_LM,6,7616,23056,23056,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_006.txt,92,4827,26596,26596,outputs\runs\ls_steepest_edge_random_lm\TSPA\run_092.txt
 TSPA,RegretCycle,54,7360,25422,31515,outputs\runs\regret_cycle\TSPA\run_054.txt,90,5294,27448,32891,outputs\runs\regret_cycle\TSPA\run_090.txt
-TSPB,LS_Steepest_Edge_Random,3,14586,18323,18323,outputs\runs\ls_steepest_edge_random\TSPB\run_003.txt,79,10425,21205,21205,outputs\runs\ls_steepest_edge_random\TSPB\run_079.txt
-TSPB,LS_Steepest_Edge_Random_Candidate,37,14715,18162,18162,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_037.txt,41,10720,21318,21318,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_041.txt
-TSPB,LS_Steepest_Edge_Random_LM,38,14642,18311,18311,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_038.txt,27,10614,20748,20748,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_027.txt
+TSPB,LS_Steepest_Edge_Random,87,19480,23678,23678,outputs\runs\ls_steepest_edge_random\TSPB\run_087.txt,41,16193,25567,25567,outputs\runs\ls_steepest_edge_random\TSPB\run_041.txt
+TSPB,LS_Steepest_Edge_Random_Candidate,34,19189,23853,23853,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_034.txt,97,16167,24093,24093,outputs\runs\ls_steepest_edge_random_candidate\TSPB\run_097.txt
+TSPB,LS_Steepest_Edge_Random_LM,68,19347,22760,22760,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_068.txt,48,16045,23961,23961,outputs\runs\ls_steepest_edge_random_lm\TSPB\run_048.txt
 TSPB,RegretCycle,6,19401,25210,32238,outputs\runs\regret_cycle\TSPB\run_006.txt,54,17209,27927,33322,outputs\runs\regret_cycle\TSPB\run_054.txt

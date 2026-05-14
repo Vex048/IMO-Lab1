@@ -16,6 +16,18 @@ public class NeighbourhoodGenerator {
             }
         }
 
+        // 1a. Ruchy dodania wierzchołka
+        for (int i = 0; i < cycleSize; i++) {
+            for (int unvisitedNode : unvisited) {
+                neighbourhood.add(new AddNodeMove(i, unvisitedNode));
+            }
+        }
+
+        // 1b. Ruchy usunięcia wierzchołka
+        for (int i = 0; i < cycleSize; i++) {
+            neighbourhood.add(new RemoveNodeMove(i));
+        }
+
         // 2. Ruchy wewnątrztrasowe (Vertex Swap lub Edge Swap)
         for (int i = 0; i < cycleSize - 1; i++) {
             for (int j = i + 1; j < cycleSize; j++) {
