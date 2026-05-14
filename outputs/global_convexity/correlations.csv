@@ -1,0 +1,9 @@
+instance,similarityScope,similarityMeasure,pearsonCorrelation,points
+TSPA,best_solution,vertices,0.197507,1000
+TSPA,best_solution,edges,0.456601,1000
+TSPA,local_optima_average,vertices,0.035162,1000
+TSPA,local_optima_average,edges,0.413255,1000
+TSPB,best_solution,vertices,0.217234,1000
+TSPB,best_solution,edges,0.589503,1000
+TSPB,local_optima_average,vertices,0.074387,1000
+TSPB,local_optima_average,edges,0.639610,1000
