@@ -1,4 +1,4 @@
-# Task 5 - global convexity results
+# Global convexity results
 
 Generated local optima per instance: 1000
 Local optima generation: randomized starting solution followed by greedy local search with EDGE_SWAP neighborhood.
