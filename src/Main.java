@@ -15,7 +15,12 @@ public class Main {
                 ExperimentBatchRunner.Method.MSLS,
                 ExperimentBatchRunner.Method.ILS,
                 ExperimentBatchRunner.Method.LNS,
-                ExperimentBatchRunner.Method.LNSA);
+                ExperimentBatchRunner.Method.LNSA,
+                ExperimentBatchRunner.Method.HAE_OP1,
+                ExperimentBatchRunner.Method.HAE_OP2,
+                ExperimentBatchRunner.Method.HAE_OP2_NOLS,
+                ExperimentBatchRunner.Method.HAE_OP3,
+                ExperimentBatchRunner.Method.HAE_OP3_NOLS);
 
             int runsPerCombination = 20;
             int startNode = -1;

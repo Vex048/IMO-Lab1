@@ -1,6 +1,8 @@
 package experiments;
 
 import heuristics.CandidateSteepestLocalSearchHeuristic;
+import heuristics.HaeHeuristic;
+import heuristics.HaeRecombinationOperator;
 import heuristics.IlsHeuristic;
 import heuristics.LmSteepestLocalSearchHeuristic;
 import heuristics.LnsHeuristic;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 
 public class ExperimentBatchRunner {
     private static final double LNS_DESTROY_FRACTION = 0.35;
+    private static final int HAE_POPULATION_SIZE = 20;
+    private static final int HAE_MAX_ITERATIONS = 5000;
 
 
     public enum Method {
@@ -159,6 +163,101 @@ public class ExperimentBatchRunner {
                 );
             }
         },
+        HAE_OP1("HAE_OP1") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new HaeHeuristic(
+                                timeLimitMs,
+                                HAE_MAX_ITERATIONS,
+                                HAE_POPULATION_SIZE,
+                                HaeRecombinationOperator.OP1_COMMON_EDGES_AND_VERTICES,
+                                true,
+                                IntraRouteNeighborhood.EDGE_SWAP
+                        ),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        HAE_OP2("HAE_OP2") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new HaeHeuristic(
+                                timeLimitMs,
+                                HAE_MAX_ITERATIONS,
+                                HAE_POPULATION_SIZE,
+                                HaeRecombinationOperator.OP2_COMMON_EDGES_ONLY,
+                                true,
+                                IntraRouteNeighborhood.EDGE_SWAP
+                        ),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        HAE_OP2_NOLS("HAE_OP2_NoLS") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new HaeHeuristic(
+                                timeLimitMs,
+                                HAE_MAX_ITERATIONS,
+                                HAE_POPULATION_SIZE,
+                                HaeRecombinationOperator.OP2_COMMON_EDGES_ONLY,
+                                false,
+                                IntraRouteNeighborhood.EDGE_SWAP
+                        ),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        HAE_OP3("HAE_OP3") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new HaeHeuristic(
+                                timeLimitMs,
+                                HAE_MAX_ITERATIONS,
+                                HAE_POPULATION_SIZE,
+                                HaeRecombinationOperator.OP3_COMMON_VERTICES_ONLY,
+                                true,
+                                IntraRouteNeighborhood.EDGE_SWAP
+                        ),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
+        HAE_OP3_NOLS("HAE_OP3_NoLS") {
+            @Override
+            Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
+                return new LocalSearchExperiment(
+                        ds,
+                        new HaeHeuristic(
+                                timeLimitMs,
+                                HAE_MAX_ITERATIONS,
+                                HAE_POPULATION_SIZE,
+                                HaeRecombinationOperator.OP3_COMMON_VERTICES_ONLY,
+                                false,
+                                IntraRouteNeighborhood.EDGE_SWAP
+                        ),
+                        sn,
+                        sp,
+                        r
+                );
+            }
+        },
         LS_STEEPEST_EDGE_HEURISTIC("LS_Steepest_Edge_Heuristic") {
             @Override
             Experiment create(Path ds, int sn, Path sp, Random r, long timeLimitMs) {
@@ -208,7 +307,14 @@ public class ExperimentBatchRunner {
         }
 
         public boolean needsMslsTime() {
-            return this == ILS || this == LNS || this == LNSA;
+            return this == ILS
+                    || this == LNS
+                    || this == LNSA
+                    || this == HAE_OP1
+                    || this == HAE_OP2
+                    || this == HAE_OP2_NOLS
+                    || this == HAE_OP3
+                    || this == HAE_OP3_NOLS;
         }
 
         public boolean isMsls() {
