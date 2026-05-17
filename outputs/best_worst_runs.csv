@@ -1,9 +1,9 @@
 instance,method,bestRun,bestObjective,bestTotalDistance,bestPhase1Distance,bestTourFile,worstRun,worstObjective,worstTotalDistance,worstPhase1Distance,worstTourFile
 TSPA,ILS,6,8666,21048,21048,outputs\runs\ils\TSPA\run_006.txt,18,7903,23852,23852,outputs\runs\ils\TSPA\run_018.txt
-TSPA,LNS,9,8529,23020,23020,outputs\runs\lns\TSPA\run_009.txt,4,7597,25502,25502,outputs\runs\lns\TSPA\run_004.txt
-TSPA,LNSa,11,8533,23353,23353,outputs\runs\lnsa\TSPA\run_011.txt,5,7294,25587,25587,outputs\runs\lnsa\TSPA\run_005.txt
+TSPA,LNS,4,8529,23020,23020,outputs\runs\lns\TSPA\run_004.txt,11,7605,25001,25001,outputs\runs\lns\TSPA\run_011.txt
+TSPA,LNSa,6,7616,23056,23056,outputs\runs\lnsa\TSPA\run_006.txt,19,5177,22764,22764,outputs\runs\lnsa\TSPA\run_019.txt
 TSPA,MSLS,17,8055,22972,22972,outputs\runs\msls\TSPA\run_017.txt,19,7561,22452,22452,outputs\runs\msls\TSPA\run_019.txt
 TSPB,ILS,18,20203,23680,23680,outputs\runs\ils\TSPB\run_018.txt,9,19304,24853,24853,outputs\runs\ils\TSPB\run_009.txt
-TSPB,LNS,2,20014,25096,25096,outputs\runs\lns\TSPB\run_002.txt,1,19478,25476,25476,outputs\runs\lns\TSPB\run_001.txt
-TSPB,LNSa,9,20055,24852,24852,outputs\runs\lnsa\TSPB\run_009.txt,13,19362,25679,25679,outputs\runs\lnsa\TSPB\run_013.txt
+TSPB,LNS,13,19995,24786,24786,outputs\runs\lns\TSPB\run_013.txt,4,19288,25426,25426,outputs\runs\lns\TSPB\run_004.txt
+TSPB,LNSa,12,18439,24679,24679,outputs\runs\lnsa\TSPB\run_012.txt,1,17163,26441,26441,outputs\runs\lnsa\TSPB\run_001.txt
 TSPB,MSLS,14,19765,24083,24083,outputs\runs\msls\TSPB\run_014.txt,8,19155,22508,22508,outputs\runs\msls\TSPB\run_008.txt
