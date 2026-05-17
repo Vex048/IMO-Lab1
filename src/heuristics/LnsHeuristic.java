@@ -48,7 +48,6 @@ public class LnsHeuristic implements Heuristic, IterationCountProvider {
 
             destroy(instance, tour, repairCandidates, rng);
             repairWithRegret(instance, tour, repairCandidates);
-            removeUnprofitableNodes(instance, tour);
 
             Solution repaired = buildSolution(instance, tour);
             Solution candidate = applyLocalSearchAfterRepair
@@ -205,28 +204,6 @@ public class LnsHeuristic implements Heuristic, IterationCountProvider {
 
             tour.add(bestPos + 1, bestNode);
             repairCandidates.remove(Integer.valueOf(bestNode));
-        }
-    }
-
-    private void removeUnprofitableNodes(Instance instance, List<Integer> tour) {
-        boolean improved = true;
-        while (improved && tour.size() > 2) {
-            improved = false;
-            int bestPos = -1;
-            int bestDelta = 0;
-
-            for (int pos = 0; pos < tour.size(); pos++) {
-                int delta = CycleDeltas.removalObjectiveDelta(instance, tour, pos);
-                if (delta > bestDelta) {
-                    bestDelta = delta;
-                    bestPos = pos;
-                }
-            }
-
-            if (bestPos >= 0) {
-                tour.remove(bestPos);
-                improved = true;
-            }
         }
     }
 
